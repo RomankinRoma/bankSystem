@@ -16,9 +16,11 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_transfer_id")
-    private UserTransfer userTransfer;
+    @ManyToOne
+    private User sender;
+
+    @ManyToOne
+    private User receiver;
 
     private Long amount;
 

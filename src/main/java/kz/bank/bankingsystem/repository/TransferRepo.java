@@ -12,9 +12,9 @@ public interface TransferRepo extends JpaRepository<Transfer,Long> {
     Transfer getById(Long id);
     List<Transfer> findAllByDateAfter(Date date);
     List<Transfer> findAllByDateBefore(Date date);
-    List<Transfer> findAllByAmountAndUserTransferSenderId(Long amount,Long id);
-    List<Transfer> findAllByUserTransferReceiverIdAndDateEquals(Long id,Date date);
-    List<Transfer> findAllByUserTransferSenderId(Long id);
-    List<Transfer> findAllByUserTransferReceiverId(Long id);
-    List<Transfer> findAllByUserTransferReceiverIdAndUserTransferSenderId(Long receiverId,Long senderIde);
+    List<Transfer> findAllByAmountAndSenderId(Long amount,Long id);
+    List<Transfer> findAllByReceiverIdAndDateEquals(Long id,Date date);
+    List<Transfer> findAllBySenderId(Long id);
+    List<Transfer> findAllByReceiverId(Long id);
+    List<Transfer> findAllByReceiverIdAndSenderId(Long receiverId,Long senderIde);
 }

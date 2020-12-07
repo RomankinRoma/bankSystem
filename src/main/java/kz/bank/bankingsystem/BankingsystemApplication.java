@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableJpaRepositories
 public class BankingsystemApplication {
 
     public static void main(String[] args) {
@@ -30,11 +29,11 @@ public class BankingsystemApplication {
     }
 
     @Bean
-    public OpenAPI customOpenAPI(@Value("Project for Architecture") String appDesciption, @Value("Project for Architecture") String appVersion) {
+    public OpenAPI customOpenAPI(@Value("Project for Architecture") String appDesciption, @Value("0.0.1") String appVersion) {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("Banking System")
+                        .title("Banking System API")
                         .version(appVersion)
                         .description(appDesciption)
                         .termsOfService("http://swagger.io/terms/")

@@ -3,23 +3,18 @@ package kz.bank.bankingsystem.service.impl;
 import kz.bank.bankingsystem.model.Transfer;
 import kz.bank.bankingsystem.DTO.TransferDTO;
 import kz.bank.bankingsystem.model.User;
-import kz.bank.bankingsystem.model.UserTransfer;
 import kz.bank.bankingsystem.repository.TransferRepo;
 import kz.bank.bankingsystem.repository.UserRepo;
-import kz.bank.bankingsystem.repository.UserTransferRepo;
 import kz.bank.bankingsystem.service.ITransferService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
 
 @Service
 public class TransferService implements ITransferService {
@@ -28,14 +23,11 @@ public class TransferService implements ITransferService {
     private TransferRepo transferRepo;
 
     @Autowired
-    private UserTransferRepo userTransferRepo;
-
-    @Autowired
     private UserRepo userRepo;
 
     @Override
     public Transfer createTranser(TransferDTO transferDTO) {
-        Transfer transfer = new Transfer();
+        Transfer transfer=new Transfer();
         User sender=userRepo.getById(transferDTO.getSenderId());
         User receiver=userRepo.getById(transferDTO.getReceiverId());
         BigInteger amount = sender.getAmount().subtract(BigInteger.valueOf(transferDTO.getAmount()));
@@ -44,11 +36,8 @@ public class TransferService implements ITransferService {
         receiver.setAmount(amount);
         transfer.setDate(new Date());
         transfer.setAmount(transferDTO.getAmount());
-        UserTransfer userTransfer = new UserTransfer();
-        userTransfer.setReceiver(receiver);
-        userTransfer.setSender(sender);
-        userTransfer=userTransferRepo.save(userTransfer);
-        transfer.setUserTransfer(userTransfer);
+        transfer.setReceiver(sender);
+        transfer.setSender(receiver);
         return transferRepo.save(transfer);
     }
 
@@ -69,17 +58,17 @@ public class TransferService implements ITransferService {
 
     @Override
     public List<Transfer> getAllTransfersBySenderId(Long id) {
-        return transferRepo.findAllByUserTransferSenderId(id);
+        return transferRepo.findAllBySenderId(id);
     }
 
     @Override
     public List<Transfer> getAllTransfersByReceiverId(Long id) {
-        return transferRepo.findAllByUserTransferReceiverId(id);
+        return transferRepo.findAllByReceiverId(id);
     }
 
     @Override
     public List<Transfer> getAllTransfersBySenderAndReceiverId(Long senderId, Long receiverId) {
-        return transferRepo.findAllByUserTransferReceiverIdAndUserTransferSenderId(receiverId,senderId);
+        return transferRepo.findAllByReceiverIdAndSenderId(receiverId,senderId);
     }
 
     @Override
@@ -98,11 +87,11 @@ public class TransferService implements ITransferService {
     @Override
     public List<Transfer> getAllTransfersByDateAndReceiver(String  date, Long id) throws ParseException {
         Date parsedDate=new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        return transferRepo.findAllByUserTransferReceiverIdAndDateEquals(id, parsedDate);
+        return transferRepo.findAllByReceiverIdAndDateEquals(id, parsedDate);
     }
 
     @Override
     public List<Transfer> getAllTransfersByAmount(Long amount,Long id) {
-        return transferRepo.findAllByAmountAndUserTransferSenderId(amount,id);
+        return transferRepo.findAllByAmountAndSenderId(amount,id);
     }
 }

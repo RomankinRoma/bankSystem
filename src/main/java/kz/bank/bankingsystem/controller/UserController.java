@@ -1,7 +1,10 @@
 package kz.bank.bankingsystem.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.bank.bankingsystem.model.User;
 import kz.bank.bankingsystem.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,38 +14,61 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Api(value = "UserController",description = "REST API for User", tags = { "User" })
+@Tag(name = "User Controller")
 public class UserController {
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
-    @ApiOperation(value="Get All User", tags = { "User" })
+    @Operation(summary="Get All Users", tags = { "User Controller" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Все юзеры получены"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+    })
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
 
-    @ApiOperation(value="Create User", tags = { "User" })
+    @Operation(summary="Register(Create) User", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Регистрация прошла успешно"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+    })
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public User createUser(@RequestBody User user){
         return userService.createUser(user);
     }
 
-    @ApiOperation(value="Update User", tags = { "User" })
+    @Operation(summary="Update User", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Данные обновлены"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+            @ApiResponse(responseCode = "404",description = "Путь не найден")
+    })
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }
 
-    @ApiOperation(value="Get User by ID", tags = { "User" })
+    @Operation(summary="Get User by ID", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Юзер существует"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+            @ApiResponse(responseCode = "404",description = "Юзер не найден")
+    })
     @RequestMapping(value = "/all/{id}",method = RequestMethod.GET)
     public User getUserById(@PathVariable(name = "id") Long id){
         return userService.getUserById(id);
     }
 
-    @ApiOperation(value="Delete User", tags = { "User" })
-    @RequestMapping(value = "/all/{id}",method = RequestMethod.DELETE)
+    @Operation(summary="Delete User", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Успешно удален"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+            @ApiResponse(responseCode = "404",description = "Юзер не найден")
+    })
+    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable(name = "id") Long id){
         userService.deleteUser(id);
     }
