@@ -1,11 +1,13 @@
 package kz.bank.bankingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,8 +15,8 @@ import java.util.Date;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String username;
 
@@ -24,8 +26,13 @@ public class User implements Serializable {
 
     private BigInteger amount;
 
+    @Column(unique = true)
     private String phoneNumber;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender")
+    private List<UserTransfer> userTransferList;
 }

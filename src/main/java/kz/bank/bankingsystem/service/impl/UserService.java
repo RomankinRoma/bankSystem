@@ -13,7 +13,7 @@ import java.util.List;
 public class UserService implements IUserService {
 
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
 
     @Override
     public List<User> getAllUsers() {
@@ -21,7 +21,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public User getUserById(Long id) {
         return userRepo.getById(id);
     }
 
@@ -32,7 +32,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public User getUserByPhoneNumber(String phoneNumber) {
+        return userRepo.getByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
         userRepo.deleteById(id);
     }
 

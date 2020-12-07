@@ -8,11 +8,13 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
-    User getUserById(Integer id);
+    User getUserById(Long id);
 
     User createUser(User user);
 
-    void deleteUser(Integer id);
+    User getUserByPhoneNumber(String phoneNumber);
+
+    void deleteUser(Long id);
 
     User updateUser(User user);
 
