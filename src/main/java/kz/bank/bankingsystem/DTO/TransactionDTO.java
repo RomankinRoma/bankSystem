@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class TransactionDTO {
+
     private Long payerId;
 
     private Long amount;

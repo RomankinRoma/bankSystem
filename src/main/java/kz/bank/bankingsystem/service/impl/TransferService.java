@@ -72,22 +72,22 @@ public class TransferService implements ITransferService {
     }
 
     @Override
-    public List<Transfer> getAllTransfersByDateAfter(String date) throws ParseException {
+    public List<Transfer> getAllTransfersByDateAfter(Long id,String date) throws ParseException {
         Date parsedDate=new SimpleDateFormat("dd.MM.yyyy").parse(date);
 
-        return transferRepo.findAllByDateAfter(parsedDate);
+        return transferRepo.findAllByDateAfterAndSenderId(parsedDate,id);
     }
 
     @Override
-    public List<Transfer> getAllTransfersByDateBefore(String date) throws ParseException {
+    public List<Transfer> getAllTransfersByDateBefore(Long id,String date) throws ParseException {
         Date parsedDate=new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        return transferRepo.findAllByDateBefore(parsedDate);
+        return transferRepo.findAllByDateBeforeAndSenderId(parsedDate,id);
     }
 
     @Override
-    public List<Transfer> getAllTransfersByDateAndReceiver(String  date, Long id) throws ParseException {
+    public List<Transfer> getAllTransfersByDateAndReceiver(String  date, Long senderId,Long receiverId) throws ParseException {
         Date parsedDate=new SimpleDateFormat("dd.MM.yyyy").parse(date);
-        return transferRepo.findAllByReceiverIdAndDateEquals(id, parsedDate);
+        return transferRepo.findAllByReceiverIdAndDateEqualsAndSenderId(receiverId, parsedDate,receiverId);
     }
 
     @Override

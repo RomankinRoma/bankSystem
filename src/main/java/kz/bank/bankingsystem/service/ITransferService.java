@@ -17,8 +17,8 @@ public interface ITransferService {
     List<Transfer> getAllTransfersBySenderId(Long id);
     List<Transfer> getAllTransfersByReceiverId(Long id);
     List<Transfer> getAllTransfersBySenderAndReceiverId(Long senderId,Long receiverId);
-    List<Transfer> getAllTransfersByDateAfter(String date) throws ParseException;
-    List<Transfer> getAllTransfersByDateBefore(String date) throws ParseException;
-    List<Transfer> getAllTransfersByDateAndReceiver(String date,Long id) throws ParseException;
+    List<Transfer> getAllTransfersByDateAfter(Long id,String date) throws ParseException;
+    List<Transfer> getAllTransfersByDateBefore(Long id,String date) throws ParseException;
+    List<Transfer> getAllTransfersByDateAndReceiver(String date,Long senderId,Long receiverId) throws ParseException;
     List<Transfer> getAllTransfersByAmount(Long amount,Long id);
 }
