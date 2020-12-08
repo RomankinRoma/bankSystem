@@ -13,8 +13,8 @@ public interface TransactionRepo extends JpaRepository<Transaction,Long> {
 
     List<Transaction> getAllByPayerId(Long id);
 
-    List<Transaction> getAllByTransactionTypeAndPayerId(TransactionType transactionType, Long payer_id);
+    List<Transaction> getAllByTransactionTypeAndPayerId(TransactionType transactionType, Long payerId);
 
-
+    List<Transaction> getAllByAmountAndPayerId(Long amount, Long payerId);
 }
 

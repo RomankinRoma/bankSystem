@@ -1,8 +1,10 @@
 package kz.bank.bankingsystem.service.impl;
 
+import kz.bank.bankingsystem.DTO.TransactionDTO;
 import kz.bank.bankingsystem.model.Transaction;
 import kz.bank.bankingsystem.model.TransactionType;
 import kz.bank.bankingsystem.repository.TransactionRepo;
+import kz.bank.bankingsystem.repository.UserRepo;
 import kz.bank.bankingsystem.service.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,17 @@ public class TransactionService implements ITransactionService {
     @Autowired
     private TransactionRepo transactionRepo;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
-    public Transaction createTransaction(Transaction transaction) {
+    public Transaction createTransaction(TransactionDTO transactionDTO) {
+        Transaction transaction=new Transaction();
+        transaction.setPayer(userRepo.getById(transactionDTO.getPayerId()));
+        transaction.setAmount(transactionDTO.getAmount());
+        transaction.setValue(transactionDTO.getValue());
+        transaction.setCommission(transactionDTO.getCommission());
+        transaction.setTransactionType(TransactionType.valueOf(transactionDTO.getType()));
         return transactionRepo.save(transaction);
     }
 
@@ -26,8 +37,8 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByType(TransactionType transactionType, Long id) {
-        return transactionRepo.getAllByTransactionTypeAndPayerId(transactionType,id);
+    public List<Transaction> getTransactionsByType(String transactionType, Long id) {
+        return transactionRepo.getAllByTransactionTypeAndPayerId(TransactionType.valueOf(transactionType),id);
     }
 
     @Override
@@ -38,5 +49,10 @@ public class TransactionService implements ITransactionService {
     @Override
     public List<Transaction> getUserTransactions(Long id) {
         return transactionRepo.getAllByPayerId(id);
+    }
+
+    @Override
+    public List<Transaction> getUserTransactionsByAmount(Long id, Long amount) {
+        return transactionRepo.getAllByAmountAndPayerId(amount,id);
     }
 }
