@@ -36,8 +36,8 @@ public class TransferService implements ITransferService {
         receiver.setAmount(amount);
         transfer.setDate(new Date());
         transfer.setAmount(transferDTO.getAmount());
-        transfer.setReceiver(sender);
-        transfer.setSender(receiver);
+        transfer.setReceiver(receiver);
+        transfer.setSender(sender);
         return transferRepo.save(transfer);
     }
 
