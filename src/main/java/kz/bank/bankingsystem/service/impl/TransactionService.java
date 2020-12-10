@@ -26,7 +26,7 @@ public class TransactionService implements ITransactionService {
     public Transaction createTransaction(TransactionDTO transactionDTO) {
         Transaction transaction=new Transaction();
         User user=userRepo.getById(transactionDTO.getPayerId());
-        user.setAmount(user.getAmount().subtract(BigInteger.valueOf(transactionDTO.getAmount())));
+        user.setAmount(user.getAmount().subtract(BigInteger.valueOf(transactionDTO.getAmount()+transactionDTO.getCommission())));
         transaction.setPayer(user);
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setValue(transactionDTO.getValue());
