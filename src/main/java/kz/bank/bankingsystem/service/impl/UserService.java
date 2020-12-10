@@ -46,4 +46,9 @@ public class UserService implements IUserService {
         user.setCreatedDate(getUserById(user.getId()).getCreatedDate());
         return userRepo.save(user);
     }
+
+    @Override
+    public User login(String username, String password) {
+        return userRepo.getByUsernameAndPassword(username,password);
+    }
 }

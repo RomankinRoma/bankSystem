@@ -62,6 +62,29 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @Operation(summary="Get User by Phone number", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Юзер существует"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+            @ApiResponse(responseCode = "404",description = "Юзер не найден")
+    })
+    @RequestMapping(value = "/phoneNumber",method = RequestMethod.GET)
+    public User getUserByPhoneNumber(@RequestParam String phoneNumber){
+        return userService.getUserByPhoneNumber(phoneNumber);
+    }
+
+    @Operation(summary="Login", tags = { "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Юзер существует"),
+            @ApiResponse(responseCode = "500",description = "Внутренняя ошибка"),
+            @ApiResponse(responseCode = "404",description = "Юзер не найден")
+    })
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public User login(@RequestParam String username,@RequestParam String password){
+        return userService.login(username,password);
+    }
+
+
     @Operation(summary="Delete User", tags = { "User" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Успешно удален"),

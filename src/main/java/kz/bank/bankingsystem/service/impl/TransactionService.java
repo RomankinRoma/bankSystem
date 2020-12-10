@@ -3,12 +3,14 @@ package kz.bank.bankingsystem.service.impl;
 import kz.bank.bankingsystem.DTO.TransactionDTO;
 import kz.bank.bankingsystem.model.Transaction;
 import kz.bank.bankingsystem.model.TransactionType;
+import kz.bank.bankingsystem.model.User;
 import kz.bank.bankingsystem.repository.TransactionRepo;
 import kz.bank.bankingsystem.repository.UserRepo;
 import kz.bank.bankingsystem.service.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -23,7 +25,9 @@ public class TransactionService implements ITransactionService {
     @Override
     public Transaction createTransaction(TransactionDTO transactionDTO) {
         Transaction transaction=new Transaction();
-        transaction.setPayer(userRepo.getById(transactionDTO.getPayerId()));
+        User user=userRepo.getById(transactionDTO.getPayerId());
+        user.setAmount(user.getAmount().subtract(BigInteger.valueOf(transactionDTO.getAmount())));
+        transaction.setPayer(user);
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setValue(transactionDTO.getValue());
         transaction.setCommission(transactionDTO.getCommission());
