@@ -1,6 +1,5 @@
 package kz.bank.bankingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 

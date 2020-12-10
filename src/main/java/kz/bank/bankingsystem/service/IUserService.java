@@ -18,4 +18,6 @@ public interface IUserService {
 
     User updateUser(User user);
 
+    User login(String username, String password);
+
 }
