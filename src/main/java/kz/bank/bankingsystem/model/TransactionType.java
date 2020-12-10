@@ -8,5 +8,6 @@ public enum TransactionType {
     UTIL,
     ESP,
     FINE,
-    TAX
+    TAX,
+    PHONE
 }
